@@ -1,24 +1,23 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux'
-import Todo from './Todo'
+import React, { Component } from "react";
+import { connect } from "react-redux";
+import Todo from "./Todo";
 
 class TodosContainer extends Component {
-
-  renderTodos = () => this.props.todos.map((todo, id) => <Todo key={id} text={todo} />)
+  renderTodos = () => {
+    return this.props.todos.map((todo) => (
+      <Todo delete={this.props.delete} key={todo.id} todo={todo} />
+    ));
+  };
 
   render() {
-    return(
-      <div>
-        {this.renderTodos()}
-      </div>
-    );
-  }
-};
-
-const mapStateToProps = state => {
-  return {
-    todos: state.todos
+    return <div>{this.renderTodos()}</div>;
   }
 }
+
+const mapStateToProps = (state) => {
+  return {
+    delete: (toDoText) => dispatch({ type: "DELETE_TODO", payload: toDoText }),
+  };
+};
 
 export default connect(mapStateToProps)(TodosContainer);
